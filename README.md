@@ -65,3 +65,9 @@ The database consists of the following tables:
    
    ```bash
     alembic upgrade head
+
+### Database Models Diagram: 
+
+<img width="1391" alt="Screenshot 2024-11-24 at 12 45 54 PM" src="https://github.com/user-attachments/assets/c00c20be-c99e-4ce1-898c-a2d855bd173a">
+
+

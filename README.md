@@ -71,3 +71,13 @@ The database consists of the following tables:
 <img width="1391" alt="Screenshot 2024-11-24 at 12 45 54 PM" src="https://github.com/user-attachments/assets/c00c20be-c99e-4ce1-898c-a2d855bd173a">
 
 
+
+### Code Description
+
+The project uses SQLAlchemy ORM to define the models based on the provided schema. Alembic handles schema migrations.
+
+Key Components
+
+* SQLAlchemy Models: Each table is represented as a Python class using SQLAlchemy's ORM. Relationships between tables are defined using ForeignKey and relationship.
+* Alembic Migrations: Alembic is used to track changes in the models and update the database schema accordingly.
+* Environment Configuration: Database credentials and connection details are stored in a .env file for flexibility and security.

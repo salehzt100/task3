@@ -1,9 +1,13 @@
+from __future__ import annotations
 import uuid
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import String, Integer, ForeignKey
-from models import Base, Role, PersonalAccessToken, Article
+from models import Base
+
+if TYPE_CHECKING:
+    from models import Article, PersonalAccessToken, Role   # Only import for type checking
 
 
 class User(Base):
@@ -34,7 +38,7 @@ class User(Base):
     # Define the relationship with PersonalAccessToken
     personal_access_tokens: Mapped[List[PersonalAccessToken]] = relationship(
         "PersonalAccessToken",
-        back_populates="user"
+        back_populates="users"
     )
 
     # Define the relationship with Articles

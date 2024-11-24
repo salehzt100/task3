@@ -1,10 +1,13 @@
+from __future__ import annotations
 from datetime import datetime
-from typing import List
+from typing import List, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime, func
 
-from models import Base, role_permission, Permission, User
+from models import Base, role_permission
 
+if TYPE_CHECKING:
+    from models import Permission, User  # Only import for type checking
 
 class Role(Base):
     __tablename__ = "roles"

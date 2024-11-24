@@ -1,10 +1,15 @@
+from __future__ import annotations
 import uuid
 from datetime import datetime
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, DateTime, ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
-from models import Base, User
+from models import Base
+
+if TYPE_CHECKING:
+    from models import  User
 
 
 class PersonalAccessToken(Base):

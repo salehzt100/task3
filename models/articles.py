@@ -1,3 +1,4 @@
+from __future__ import annotations
 import enum
 import uuid
 from datetime import datetime
@@ -5,7 +6,11 @@ from typing import List, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey, Text, Enum, UUID
 
-from models import Base, article_tag, Category, User, Comment, Tag
+from models import Base, article_tag
+
+
+if TYPE_CHECKING:
+    from models import   Category, User, Comment, Tag
 
 
 

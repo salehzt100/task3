@@ -1,9 +1,13 @@
+from __future__ import annotations
 from datetime import datetime
-from typing import List
+from typing import List, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime, func
-from models import Base, Article
+from models import Base
 
+
+if TYPE_CHECKING:
+    from models import Article
 
 
 class Tag(Base):

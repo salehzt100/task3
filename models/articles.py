@@ -39,7 +39,7 @@ class Article(Base):
     status: Mapped[ArticleStatus] = mapped_column(
         Enum(ArticleStatus, name="status"),
         nullable=False,
-        server_default="draft"
+        server_default="DRAFT"
     )
 
     user_id: Mapped[uuid.UUID] = mapped_column(

@@ -1,6 +1,9 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Depends
 from typing import List, Optional, Union
 from datetime import datetime
+from sqlalchemy.orm import Session
+from database import get_db
+
 from schema import (
     RegisterRequestBody,
     LoginRequestBody,
@@ -21,12 +24,17 @@ from schema import (
     RolePermissionRequestBody,
 )
 
+from Controllers import (
+    AuthController,
+)
+
 app = FastAPI()
 
 ''' AUTH APIs '''
 @app.post("/register", tags=['Auth'])
-async def register(body: RegisterRequestBody):
-    pass
+async def register( user: RegisterRequestBody, db: Session = Depends(get_db)):
+
+    return AuthController.register(user, db )
 
 @app.post("/login", tags=['Auth'])
 async def login(body: LoginRequestBody):

@@ -22,8 +22,3 @@ class Permission(Base):
         nullable=False
     )
 
-    roles: Mapped[List[Role]] = relationship(
-        "Role",
-        secondary=role_permission,
-        back_populates="permissions"
-    )

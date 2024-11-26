@@ -60,7 +60,8 @@ class Article(Base):
 
     # Relationship with the Article
     category: Mapped[Category] = relationship(
-        "Category", back_populates="articles"
+        "Category",
+        back_populates="articles"
     )
 
 
@@ -72,11 +73,13 @@ class Article(Base):
 
     # Relationship with the Article
     comments: Mapped[List[Comment]] = relationship(
-        "Comment", back_populates="article"
+        "Comment",
+        back_populates="article"
     )
 
     # Relationship with the Article
 
     tags: Mapped[List[Tag]] = relationship(
-        "Tag", secondary=article_tag, back_populates="articles"
+        "Tag", secondary="article_tag",
+        back_populates="articles"
     )

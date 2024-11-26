@@ -4,7 +4,8 @@ from typing import List, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime, func
 
-from models import Base, role_permission
+from models import Base
+from models.role_permission import role_permission
 
 if TYPE_CHECKING:
     from models import Permission, User  # Only import for type checking
@@ -25,10 +26,10 @@ class Role(Base):
         server_default=func.now(),
         nullable=False
     )
+
     permissions: Mapped[List[Permission]] = relationship(
         "Permission",
         secondary=role_permission,
-        back_populates="roles"
     )
 
 

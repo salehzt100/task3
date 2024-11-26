@@ -39,14 +39,14 @@ class PersonalAccessToken(Base):
     )
 
     # Foreign key referencing the User model
-    user_id: Mapped[uuid.UUID] = mapped_column(
+    user_id = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("users.id"),
         nullable=False
     )
 
     # Relationship with User
-    user: Mapped[User] = relationship(
+    user = relationship(
         "User",
         back_populates="personal_access_tokens"
     )

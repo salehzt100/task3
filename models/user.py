@@ -22,10 +22,25 @@ class User(Base):
         String(255),
         nullable=False
     )
-    role_id: Mapped[Optional[int]] = mapped_column(
+    username: Mapped[str] = mapped_column(
+        String(150),
+        unique=True,
+        nullable=False
+    )
+    password: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
+    is_active: Mapped[bool] = mapped_column(
+        nullable=False,
+        default=False,
+    )
+
+    role_id: Mapped[int] = mapped_column(
         Integer,
         ForeignKey("roles.id")
     )
+
 
 
     # Define the relationship with Role
@@ -36,13 +51,13 @@ class User(Base):
     )
 
     # Define the relationship with PersonalAccessToken
-    personal_access_tokens: Mapped[List[PersonalAccessToken]] = relationship(
+    personal_access_tokens = relationship(
         "PersonalAccessToken",
-        back_populates="users"
+        back_populates="user"
     )
 
     # Define the relationship with Articles
     articles: Mapped[List[Article]] = relationship(
         "Article",
-        back_populates="users"
+        back_populates="user"
     )

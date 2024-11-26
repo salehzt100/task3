@@ -34,5 +34,6 @@ class Tag(Base):
     # Relationship with Articles
     articles: Mapped[List[Article]] = relationship(
         "Article",
+        secondary="article_tag",
         back_populates="tags"
     )

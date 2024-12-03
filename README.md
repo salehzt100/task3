@@ -65,6 +65,14 @@ The database consists of the following tables:
    
    ```bash
     alembic upgrade head
+4. Run Seeder to Populate Initial Roles After applying migrations, run the seeder script to populate the roles table:
+   
+   ```bash
+   python seeder/role_seeder.py
+   
+   # The role_seeder.py script ensures essential roles like Admin, Editor, and Viewer are created for the system.
+
+
 
 ### Database Models Diagram: 
 

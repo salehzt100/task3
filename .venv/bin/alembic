@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/mac/Documents/ASAL-Training 2024/Task3/.venv/bin/python3.11" "$0" "$@"
+'''exec' "/Users/mac/Documents/ASAL-Training 2024/Task3/.venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

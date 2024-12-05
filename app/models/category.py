@@ -21,7 +21,8 @@ class Category(Base):
     )
     name: Mapped[str] = mapped_column(
         String(60),
-        nullable=False
+        nullable=False,
+        unique=True
     )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

@@ -13,7 +13,7 @@ class AuthController:
     @staticmethod
     def login(username,password, db: Session):
         """
-        Register a new user.
+        login
         """
         return AuthService.login_user(username,password, db)
 

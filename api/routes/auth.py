@@ -22,8 +22,5 @@ async def register( user: RegisterRequestBody = Depends(register_as_form), db: S
 async def login(request: Annotated[OAuth2PasswordRequestForm,Depends()] ,db: Session = Depends(get_db)):
     return AuthController.login(request.username,request.password, db)
 
-@router.post("/logout")
-async def logout():
-    pass
 
 

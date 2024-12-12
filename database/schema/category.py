@@ -3,10 +3,6 @@ from typing import List, Type
 
 from fastapi import Form
 from pydantic import BaseModel
-from sqlalchemy.orm import Mapped
-
-from app.models import Category
-
 
 
 class CategoryRequestBody(BaseModel):
@@ -20,7 +16,8 @@ class CategoryResponseModel(BaseModel):
 class CategoryResponse(BaseModel):
     success: bool
     message: str
-    data: datetime
+    data: CategoryResponseModel
+
 class CategoriesResponse(BaseModel):
     success: bool
     message: str

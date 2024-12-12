@@ -1,8 +1,7 @@
-
 from sqlalchemy.orm import Session
 
 from app.exceptions import NotFoundException
-from app.repositories.category_repository import CategoryRepository
+from app.repositories import CategoryRepository
 from app.services import CategoryServices
 from database.schema import CategoryRequestBody, CategoryResponse, CategoryResponseModel, CategoriesResponse
 from utils import exception_handler
@@ -12,9 +11,8 @@ class CategoryController:
 
     @staticmethod
     @exception_handler
-
     def store(request: CategoryRequestBody, db: Session):
-        category = CategoryServices.create_new_category(request,db)
+        category = CategoryServices.create_new_category(request, db)
         return CategoryResponse(
             success=True,
             message="Category created",
@@ -43,6 +41,32 @@ class CategoryController:
 
         if category is None:
             raise NotFoundException("Category not found")
-        return category
+        return CategoryResponseModel(**category)
+
+    @staticmethod
+    @exception_handler
+    def destroy(category_id: int, db: Session):
+        category = CategoryRepository.get_by_id(db=db, category_id=category_id)
+
+        if category is None:
+            raise NotFoundException(f"Category with id '{category_id}' not found")
+
+        CategoryRepository.delete_category(db, category)
+
+        return {
+            "success": True,
+            "message": "Category deleted successfully",
+        }
 
 
+    @staticmethod
+    @exception_handler
+    def update(category_id: int,request: CategoryRequestBody, db: Session):
+
+        category = CategoryServices.update_category(category_id, request, db)
+
+        return CategoryResponse(
+            success=True,
+            message="Category updated successfully",
+            data=CategoryResponseModel(**category.__dict__),
+        )

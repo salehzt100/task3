@@ -4,7 +4,6 @@ from uuid import UUID
 
 from fastapi import Form
 from pydantic import BaseModel
-from pydantic.v1 import UUID4
 
 from app.enums import RoleEnum
 
@@ -39,7 +38,7 @@ async def register_as_form(
 
 
 class UserResponseModel(BaseModel):
-    id: str
+    id: UUID
     name: str
     username: str
     role: str

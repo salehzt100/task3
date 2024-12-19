@@ -1,2 +1,3 @@
 from .category_repository import CategoryRepository
 from .tag_repository import TagRepository
+from .article_repository import ArticleRepository

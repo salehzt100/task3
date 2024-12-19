@@ -4,7 +4,6 @@ from uuid import UUID
 
 from fastapi import Form
 from pydantic import BaseModel
-from datetime import datetime
 
 from app.enums import RoleEnum
 
@@ -30,11 +29,11 @@ class UserResponse(BaseModel):
     role: str
 
 
-class PostUserRoles(enum.Enum):
-    READER = RoleEnum.READER
-    AUTHOR = RoleEnum.AUTHOR
-    EDITOR = RoleEnum.EDITOR
-    ADMIN = RoleEnum.ADMIN
+class PostUserRoles(enum.IntEnum):
+    READER = RoleEnum.READER.value
+    AUTHOR = RoleEnum.AUTHOR.value
+    EDITOR = RoleEnum.EDITOR.value
+    ADMIN = RoleEnum.ADMIN.value
 
 class AddUserRequestBody(BaseModel):
     f_name: str

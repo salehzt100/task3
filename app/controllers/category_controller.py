@@ -19,6 +19,7 @@ class CategoryController:
             data=CategoryResponseModel(
                 id=category.id,
                 name=category.name,
+
             ),
         )
 

@@ -11,6 +11,7 @@ async def not_found_exception_handler(request: Request, exc: NotFoundException):
 
 
 async def custom_exception_handler(request: Request, exc: CustomException):
+
     return JSONResponse(
         status_code=exc.status_code,
         content={"success": False, "error": exc.message},

@@ -20,6 +20,11 @@ class TagRepository:
         return query.first() is not None
 
     @staticmethod
+    def check_exists_py_id(db: Session, tag_id: int) -> bool:
+        query = db.query(Tag).filter(Tag.id == tag_id)
+        return query.first() is not None
+
+    @staticmethod
     def get_all(db: Session, search: str | None):
         query = db.query(Tag)
         if search:

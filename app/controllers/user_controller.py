@@ -6,7 +6,7 @@ from app.exceptions import NotFoundException
 from app.repositories.user_repository import UserRepository
 from app.services.user_services import UserServices
 from database import UserResponseModel
-from database.schema import UserResponse, UserRequestBody, UpdateUserRequestBody
+from database.schema import UserResponse, UserRequestBody, UpdateUserRequestBody, AddUserRequestBody
 
 
 class UserController:
@@ -42,7 +42,7 @@ class UserController:
         return UserResponseModel(id=user.id, username=user.username, name=user.name, role=user.role.name)
 
     @staticmethod
-    def stor(db, user_request: UserRequestBody):
+    def stor(db, user_request: AddUserRequestBody):
 
         created_user = UserServices.create_user(db, user_request)
 

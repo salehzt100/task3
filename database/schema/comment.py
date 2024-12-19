@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from .user import UserResponse
+from .user import UserResponseModel
 
 class CommentRequestBody(BaseModel):
     content: str
@@ -8,6 +8,6 @@ class CommentRequestBody(BaseModel):
 class CommentResponse(BaseModel):
     id: int
     content: str
-    user: UserResponse
+    user: UserResponseModel
     article_id: int
     created_at: datetime

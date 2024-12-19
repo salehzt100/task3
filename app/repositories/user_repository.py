@@ -72,6 +72,12 @@ class UserRepository:
                 .filter(User.username == username)
                 .filter(User.id != user_id)
                 .first())
+
+    @staticmethod
+    def check_exists_username(db: Session, username: str):
+        return (db.query(models.User)
+                .filter(User.username == username)
+                .first())
     @staticmethod
     def delete_user_by_id(db: Session, user_id: UUID):
         result = db.query(models.User).filter(User.id == user_id).delete()

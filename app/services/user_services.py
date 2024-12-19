@@ -7,7 +7,7 @@ from app.exceptions import NotFoundException, ValidationException
 from app.models import User
 from app.repositories.user_repository import UserRepository
 from core.security import hash_password
-from database.schema import UserRequestBody, UpdateUserRequestBody
+from database.schema import UserRequestBody, UpdateUserRequestBody, AddUserRequestBody
 
 
 class UserServices:
@@ -15,10 +15,12 @@ class UserServices:
     def activate_user(db, user_id: UUID):
      return UserRepository.activate_user(db, user_id)
     @staticmethod
-    def create_user(db: Session   , user_request: UserRequestBody):
-        """
+    def create_user(db: Session   , user_request: AddUserRequestBody):
+        """AddUserRequestBody
                      Handles the user registration process.
                      """
+        # check username is existed
+
         # Hash the password
         hashed_password = hash_password(user_request.password)
 
@@ -27,7 +29,7 @@ class UserServices:
             name=f"{user_request.f_name} {user_request.l_name}",
             username=user_request.username,
             password=hashed_password,
-            role_id=RoleEnum[user_request.role.value].value,
+            role_id=user_request.role.value,
             is_active=True,
         )
 

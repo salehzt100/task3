@@ -22,6 +22,12 @@ class CategoryRepository:
         if exclude_id is not None:
             query = query.filter(Category.id != exclude_id)  # Exclude the current category ID
         return query.first() is not None
+
+    @staticmethod
+    def check_exists_py_id(db: Session, category_id: int) -> bool:
+        query = db.query(Category).filter(Category.id == category_id)
+        return query.first() is not None
+
     @staticmethod
     def get_all(db: Session, search: str | None):
         query = db.query(Category)

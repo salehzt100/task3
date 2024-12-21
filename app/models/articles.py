@@ -23,6 +23,8 @@ class ArticleStatus(enum.Enum):
 class Article(Base):
     __tablename__ = "articles"
 
+
+
     id: Mapped[int] = mapped_column(
         Integer,
         primary_key=True
@@ -82,3 +84,4 @@ class Article(Base):
         "Tag", secondary="article_tag",
         back_populates="articles"
     )
+

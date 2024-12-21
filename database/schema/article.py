@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Optional
 from uuid import UUID
 
+from fastapi import Form
 from pydantic import BaseModel
 from datetime import datetime
 from enum import Enum
@@ -15,6 +16,14 @@ class ArticleStatus(str, Enum):
     IN_REVIEW = "IN_REVIEW"
     PUBLISHED = "PUBLISHED"
     REJECTED = "REJECTED"
+
+class ArticleFilterType(str, Enum):
+    DATE = 'date'
+    STATUS = 'status'
+    AUTHOR = 'author'
+
+
+
 
 
 
@@ -35,3 +44,13 @@ class ArticleResponse(BaseModel):
     user: UserResponse
     category: CategoryResponseModel
     tags: List[TagResponseModel]
+
+
+
+class ArticleUpdateRequestBody(BaseModel):
+    title: Optional[str] = Form(None),
+    body: Optional[str] = Form(None),
+    category_id: Optional[int] = Form(None),
+    tags: Optional[List[int]] = Form(None),
+
+

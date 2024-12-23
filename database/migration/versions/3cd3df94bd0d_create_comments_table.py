@@ -24,8 +24,11 @@ def upgrade() -> None:
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('content', sa.String(length=60), nullable=False),
         sa.Column('article_id', sa.Integer(), nullable=False),
+        sa.Column('user_id', sa.UUID, nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
         sa.ForeignKeyConstraint(['article_id'], ['articles.id'], ),
+        sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+
         sa.PrimaryKeyConstraint('id')
     )
 

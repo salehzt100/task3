@@ -1,2 +1,2 @@
 from .decorators import *
-from .utils import *
+from .fastapi.dependencies import get_current_user

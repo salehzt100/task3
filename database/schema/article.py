@@ -6,9 +6,10 @@ from pydantic import BaseModel
 from datetime import datetime
 from enum import Enum
 
-from . import TagResponseModel
 from .user import  UserResponse
 from .category import CategoryResponseModel
+from .comment import CommentResponseModel
+from .tag import TagResponseModel
 
 
 class ArticleStatus(str, Enum):
@@ -16,6 +17,7 @@ class ArticleStatus(str, Enum):
     IN_REVIEW = "IN_REVIEW"
     PUBLISHED = "PUBLISHED"
     REJECTED = "REJECTED"
+    SUBMITTED = "SUBMITTED"
 
 class ArticleFilterType(str, Enum):
     DATE = 'date'
@@ -31,7 +33,6 @@ class ArticleFilterType(str, Enum):
 class ArticleRequestBody(BaseModel):
     title: str
     body: str
-    user_id: UUID
     category_id: int
     tags:List[int]
 
@@ -44,6 +45,7 @@ class ArticleResponse(BaseModel):
     user: UserResponse
     category: CategoryResponseModel
     tags: List[TagResponseModel]
+    comments: List[CommentResponseModel]
 
 
 

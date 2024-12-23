@@ -41,5 +41,5 @@ def downgrade() -> None:
     op.drop_table('articles')
 
     # Drop ENUM type
-    status_enum = sa.Enum('DRAFT', 'IN_REVIEW', 'PUBLISHED', 'REJECTED', name='STATUS')
+    status_enum = sa.Enum('DRAFT','SUBMITTED', 'IN_REVIEW', 'PUBLISHED', 'REJECTED', name='STATUS')
     status_enum.drop(op.get_bind(), checkfirst=True)

@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-from database import get_db
 from app.models import Role
+from bootstrap import get_db
 
 
 def seed_roles():
-    roles = ["ADMIN", "EDITOR", "AUTHOR", "READER"]
+    roles = [("ADMIN", 1), ("EDITOR", 2), ("AUTHOR", 3), ("READER", 4)]
 
     # Get a database session from the generator
     db_generator = get_db()
@@ -13,7 +13,7 @@ def seed_roles():
     try:
         # Check existing roles in the database
         existing_roles = {role.name for role in db.query(Role).all()}
-        new_roles = [Role(name=role) for role in roles if role not in existing_roles]
+        new_roles = [Role(name=role_name, id=role_id) for role_name, role_id in roles if role_name not in existing_roles]
 
         if new_roles:
             db.add_all(new_roles)

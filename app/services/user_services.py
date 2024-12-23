@@ -2,24 +2,33 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.enums import RoleEnum
 from app.exceptions import NotFoundException, ValidationException
 from app.models import User
 from app.repositories.user_repository import UserRepository
 from core.security import hash_password
-from database.schema import UserRequestBody, UpdateUserRequestBody, AddUserRequestBody
+from database.schema import UpdateUserRequestBody, AddUserRequestBody
 
 
 class UserServices:
-    @staticmethod
-    def activate_user(db, user_id: UUID):
-     return UserRepository.activate_user(db, user_id)
-    @staticmethod
-    def create_user(db: Session   , user_request: AddUserRequestBody):
-        """AddUserRequestBody
-                     Handles the user registration process.
-                     """
-        # check username is existed
+    def __init__(self, db: Session):
+        self.db = db
+        self.user_repository = UserRepository(db)
+
+    def activate_user(self, user_id: UUID):
+        user = self.user_repository.get_user_by_id(user_id)
+        if not user:
+            raise NotFoundException(f'User with id {user_id} not found')
+
+        return self.user_repository.activate_user(user)
+
+    def inactivate_user(self, user_id: UUID):
+        user = self.user_repository.get_user_by_id(user_id)
+        if not user:
+            raise NotFoundException(f'User with id {user_id} not found')
+
+        return self.user_repository.inactivate_user(user)
+
+    def create_user(self, user_request: AddUserRequestBody):
 
         # Hash the password
         hashed_password = hash_password(user_request.password)
@@ -34,27 +43,21 @@ class UserServices:
         )
 
         # Save user using the repository
-        created_user = UserRepository.create_user(db, new_user)
+        created_user = self.user_repository.create_user(new_user)
         return created_user
 
-
-    @staticmethod
-    def update_user(db: Session, user_id,  user_request: UpdateUserRequestBody):
-        user = UserRepository.get_user_by_id(db, user_id)
+    def update_user(self, user_id, user_request: UpdateUserRequestBody):
+        user = self.user_repository.get_user_by_id(user_id)
         if not user:
             raise NotFoundException(F'user with id {user_id} not found')
-        if UserRepository.check_duplicate_username(db, user_id, user_request.username):
-            raise ValidationException(F'username exists')
-        if user_request.role_id not in RoleEnum._value2member_map_:
-            raise ValidationException(F'role id {user_request.role_id} not valid')
+        if self.user_repository.check_duplicate_username(user_id, user_request.username):
+            raise ValidationException(f'username {user_request.username} already exists')
 
         data_to_update = {key: value for key, value in dict(user_request).items() if value is not None}
 
         for key, value in data_to_update.items():
             setattr(user, key, value)
-        db.commit()
-        db.refresh(user)
+
+        self.user_repository.update_user(user)
+
         return user
-
-
-

@@ -1,52 +1,41 @@
-
 from sqlalchemy.orm import Session
-
 from app.models import Category
-
-
-
 
 class CategoryRepository:
 
-    @staticmethod
-    def create_category(db: Session, category: Category) -> Category:
-        db.add(category)
-        db.commit()
-        db.refresh(category)
+    def __init__(self, db: Session):
+        self.db = db
+
+    def create_category(self, category: Category) -> Category:
+        self.db.add(category)
+        self.db.commit()
+        self.db.refresh(category)
         return category
 
-
-    @staticmethod
-    def check_exists(db: Session, name: str, exclude_id: int | None = None) -> bool:
-        query = db.query(Category).filter(Category.name == name)
+    def check_exists(self, name: str, exclude_id: int | None = None) -> bool:
+        query = self.db.query(Category).filter(Category.name == name)
         if exclude_id is not None:
             query = query.filter(Category.id != exclude_id)  # Exclude the current category ID
         return query.first() is not None
 
-    @staticmethod
-    def check_exists_py_id(db: Session, category_id: int) -> bool:
-        query = db.query(Category).filter(Category.id == category_id)
+    def check_exists_py_id(self, category_id: int) -> bool:
+        query = self.db.query(Category).filter(Category.id == category_id)
         return query.first() is not None
 
-    @staticmethod
-    def get_all(db: Session, search: str | None):
-        query = db.query(Category)
+    def get_all(self, search: str | None):
+        query = self.db.query(Category)
         if search:
             query = query.filter(Category.name.ilike(f"%{search}%"))
-
         return query.all()
 
-    @staticmethod
-    def get_by_id(db: Session, category_id: int):
-        return db.query(Category).filter(Category.id == category_id).first()
+    def get_by_id(self, category_id: int):
+        return self.db.query(Category).filter(Category.id == category_id).first()
 
-    @staticmethod
-    def delete_category(db: Session, category: Category):
-        db.delete(category)
-        db.commit()
+    def delete_category(self, category: Category):
+        self.db.delete(category)
+        self.db.commit()
 
-    @staticmethod
-    def update_category(db: Session, category_id: int, name: str):
-        updated_category = db.query(Category).filter(Category.id == category_id).update({Category.name: name})
-        db.commit()
+    def update_category(self, category_id: int, name: str):
+        updated_category = self.db.query(Category).filter(Category.id == category_id).update({Category.name: name})
+        self.db.commit()
         return updated_category

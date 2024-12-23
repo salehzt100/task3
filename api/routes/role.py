@@ -1,28 +1,19 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from database.schema import RoleResponse, RoleRequestBody
+from app.controllers.role_controller import RoleController
+from database.schema import RoleResponse
+from utils.fastapi.dependencies import role_required
 
 router = APIRouter(tags=["Roles"])
 
 ''' ROLES APIs '''
-@router.get('/roles', response_model=List[RoleResponse])
-async def list_role():
-    pass
 
-@router.get('/roles/{role_id}', response_model=RoleResponse)
-async def show_role(role_id: int):
-    pass
 
-@router.post('/roles', response_model=RoleResponse)
-async def create_role(role_body: RoleRequestBody):
-    pass
-
-@router.put('/roles/{role_id}', response_model=RoleResponse)
-async def update_role(role_id: int, role_body: RoleRequestBody):
-    pass
-
-@router.delete('/roles/{role_id}', response_model=dict)
-async def delete_role(role_id: int):
-    pass
+@router.get('/roles',
+            response_model=List[RoleResponse],
+            dependencies=[Depends(role_required(['ADMIN']))]
+            )
+async def list_role(role_controller: RoleController = Depends(RoleController)):
+    return role_controller.index()

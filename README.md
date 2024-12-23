@@ -54,7 +54,7 @@ The database consists of the following tables:
 1. Initialize Alembic:
    
    ```bash
-   alembic init migrations
+   alembic revision --autogenerate -m "Initial migration"
 
 2. Generate a migration:
    

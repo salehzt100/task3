@@ -7,7 +7,7 @@ from sqlalchemy import String, Integer, ForeignKey
 from app.models import Base
 
 if TYPE_CHECKING:
-    from app.models import Article, Role   # Only import for type checking
+    from app.models import Article, Role, Comment   # Only import for type checking
 
 
 class User(Base):
@@ -53,11 +53,22 @@ class User(Base):
     # Define the relationship with PersonalAccessToken
     personal_access_tokens = relationship(
         "PersonalAccessToken",
-        back_populates="user"
+        back_populates="user",
+        cascade="all, delete-orphan"
     )
 
     # Define the relationship with Articles
     articles: Mapped[List[Article]] = relationship(
         "Article",
-        back_populates="user"
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+
+    # Relationship with the Article
+    comments: Mapped[List[Comment]] = relationship(
+        "Comment",
+        back_populates="user",
+        cascade="all, delete-orphan"
+
     )

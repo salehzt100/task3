@@ -8,78 +8,66 @@ from app.models import User
 
 
 class UserRepository:
-    @staticmethod
-    def get_user_by_id(db: Session, user_id):
-        return db.query(models.User).filter(models.User.id == user_id).first()
+    def __init__(self, db: Session):
+        self.db = db
 
+    def get_user_by_id(self, user_id):
+        return self.db.query(models.User).filter(models.User.id == user_id).first()
 
-    @staticmethod
-    def activate_user(db: Session, user_id):
-        user = UserRepository.get_user_by_id(db, user_id)
+    def activate_user(self, user):
         user.is_active = True
-        db.commit()
-        db.refresh(user)
-        return user
-    @staticmethod
-    def deactivate_user(db: Session, user_id):
-        user = UserRepository.get_user_by_id(db, user_id)
-        user.is_active = False
-        db.commit()
-        db.refresh(user)
+        self.db.commit()
+        self.db.refresh(user)
         return user
 
-    @staticmethod
-    def get_all_active_users( db: Session):
-        return (db.query(User)
+    def inactivate_user(self, user):
+        user.is_active = False
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+
+
+
+    def get_all_active_users(self):
+        return (self.db.query(User)
                 .filter(User.is_active == True)
                 .all())
 
-
-    @staticmethod
-    def get_all_inactive_users(db: Session):
-        return (db.query(User)
+    def get_all_inactive_users(self):
+        return (self.db.query(User)
                 .filter(User.is_active == False)
                 .all())
-    @staticmethod
-    def get_all_inactive_authors(db: Session):
-        return (db.query(User)
+
+    def get_all_inactive_authors(self):
+        return (self.db.query(User)
                 .filter(User.is_active == False)
                 .filter(User.role_id == RoleEnum.AUTHOR.value)
                 .all())
-    @staticmethod
-    def create_user(db: Session, user: User):
+
+    def create_user(self, user: User):
         """
         Add a new user to the database.
         """
-        db.add(user)
-        db.commit()
-        db.refresh(user)
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
         return user
 
-    @staticmethod
-    def update_user(db: Session, user: User):
-        """
-        Add a new user to the database.
-        """
-        db.add(user)
-        db.commit()
-        db.refresh(user)
-        return user
+    def update_user(self, user: User):
+        self.db.commit()
+        self.db.refresh(user)
 
-    @staticmethod
-    def check_duplicate_username(db: Session, user_id: UUID, username: str):
-        return (db.query(models.User)
+    def check_duplicate_username(self, user_id: UUID, username: str):
+        return (self.db.query(models.User)
                 .filter(User.username == username)
                 .filter(User.id != user_id)
                 .first())
 
-    @staticmethod
-    def check_exists_username(db: Session, username: str):
-        return (db.query(models.User)
+    def check_exists_username(self, username: str):
+        return (self.db.query(models.User)
                 .filter(User.username == username)
                 .first())
-    @staticmethod
-    def delete_user_by_id(db: Session, user_id: UUID):
-        result = db.query(models.User).filter(User.id == user_id).delete()
-        db.commit()
-        return result
+
+    def delete_user(self, user: User):
+        self.db.delete(user)
+        self.db.commit()

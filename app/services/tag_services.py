@@ -6,29 +6,30 @@ from database.schema import TagRequestBody
 
 
 class TagServices:
+    def __init__(self, db: Session):
+        self.tag_repository = TagRepository(db)
+        self.db = db
 
-    @staticmethod
-    def create_new_tag(request: TagRequestBody, db: Session):
+    def create_new_tag(self, request: TagRequestBody):
         if request.name.isdigit():
             raise ValidationException("Tag name cannot be an integer")
-        if TagRepository.check_exists(db, request.name):
+        if self.tag_repository.check_exists(request.name):
             raise ValidationException(f"Tag with name: '{request.name}' already exists")
 
         tag_data = Tag(name=request.name)
-        new_tag = TagRepository.create_tag(db, tag_data)
+        new_tag = self.tag_repository.create_tag(tag_data)
         return new_tag
 
-    @staticmethod
-    def update_tag(tag_id: int, request: TagRequestBody, db: Session):
-        tag = TagRepository.get_by_id(db, tag_id)
+    def update_tag(self, tag_id: int, request: TagRequestBody):
+        tag = self.tag_repository.get_by_id(tag_id)
         if tag is None:
             raise ValidationException(f"Tag with id: {tag_id} does not exist")
 
         if request.name.isdigit():
             raise ValidationException("Tag name cannot be an integer")
-        if TagRepository.check_exists(db, request.name, tag_id):
+        if self.tag_repository.check_exists(request.name, tag_id):
             raise ValidationException(f"Tag with name: '{request.name}' already exists")
 
-        TagRepository.update_tag(db, tag_id, request.name)
-        updated_tag = TagRepository.get_by_id(db, tag_id)
+        self.tag_repository.update_tag(tag_id, request.name)
+        updated_tag = self.tag_repository.get_by_id(tag_id)
         return updated_tag

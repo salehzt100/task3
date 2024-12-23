@@ -6,7 +6,14 @@ from fastapi import Form
 from pydantic import BaseModel
 
 from app.enums import RoleEnum
+from database.schema.user import UserResponseModel
 
+
+class UserRoles(str,enum.Enum):
+    READER = RoleEnum.READER.name
+    AUTHOR = RoleEnum.AUTHOR.name
+    ADMIN = RoleEnum.ADMIN.name
+    EDITOR = RoleEnum.EDITOR.name
 
 class RegisterRoles(enum.Enum):
     READER = RoleEnum.READER.name
@@ -37,11 +44,7 @@ async def register_as_form(
 
 
 
-class UserResponseModel(BaseModel):
-    id: UUID
-    name: str
-    username: str
-    role: str
+
 
 class RegistrationResponseModel(BaseModel):
     success: bool

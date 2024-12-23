@@ -60,3 +60,4 @@ class ArticleRepository:
     def delete(self, article: Article):
         self.db.delete(article)
         self.db.commit()
+

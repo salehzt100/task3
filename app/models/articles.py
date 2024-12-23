@@ -18,6 +18,7 @@ class ArticleStatus(enum.Enum):
     IN_REVIEW = "in_review"
     PUBLISHED = "published"
     REJECTED = "rejected"
+    SUBMITTED= "SUBMITTED"
 
 
 class Article(Base):

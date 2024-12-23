@@ -5,4 +5,3 @@ from .category import *
 from .article import *
 from .comment import *
 from .role import *
-from .permission import *

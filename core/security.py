@@ -1,8 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any, Union
-
+from fastapi import HTTPException, Depends
 import jwt
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+from starlette import status
+
+from bootstrap import get_db
 from .config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,11 +33,31 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+
 
 def hash_password(password: str) -> str:
     """
     Hashes the given password using bcrypt (via CryptContext).
     """
     return pwd_context.hash(password)
+
+def verify_access_token(request, db: Session = Depends(get_db)):
+    from app.controllers import AuthController
+    auth_controller = AuthController(db)
+
+
+    token = request.headers.get("Authorization")
+
+    if not token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication token is missing. Please provide a valid token.")
+    token = token.replace("Bearer ", "")
+    token_in_db = auth_controller.get_personal_access_token(token)
+
+    if token_in_db is None:
+        raise HTTPException(detail='token is invalid', status_code=status.HTTP_401_UNAUTHORIZED)
+    return token_in_db
+
+
+
+
+

@@ -28,8 +28,8 @@ The database consists of the following tables:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/task-management-system.git
-   cd task-management-system
+   git clone https://github.com/salehzt100/task3.git
+   cd task3
 2. Create a virtual environment:
    ```bash
    python -m venv venv

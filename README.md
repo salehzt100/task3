@@ -1,6 +1,3 @@
-To modify the overview and context of the project, we need to focus more on the content management system and role-based access management, instead of task management. Here's how the `README.md` could be updated:
-
----
 
 # Role-Based Content Management System (CMS)
 

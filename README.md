@@ -1,19 +1,23 @@
-# Task Management System
+To modify the overview and context of the project, we need to focus more on the content management system and role-based access management, instead of task management. Here's how the `README.md` could be updated:
 
-This project implements a database schema for a task management system using SQLAlchemy and Alembic for migrations. The database schema is based on the provided diagram, and the `.env` file is used to configure the database connection.
+---
+
+# Role-Based Content Management System (CMS)
+
+This project implements a Content Management System (CMS) with a database schema using SQLAlchemy and Alembic for migrations. The system is designed to manage content such as articles, categories, and tags while enforcing role-based access to ensure appropriate permissions for different user types (Admin, Editor, Author, Reader).
 
 ## Database Models
 
 The database consists of the following tables:
 
 1. **users**: Stores user details such as username and role.
-2. **roles**: Defines roles assigned to users.
-3. **personal\_access\_tokens**: Manages user authentication tokens.
-4. **articles**: Stores article details written by users.
+2. **roles**: Defines roles assigned to users (Author, Reader).
+3. **personal_access_tokens**: Manages user authentication tokens.
+4. **articles**: Stores articles written by users.
 5. **categories**: Categorizes articles.
 6. **tags**: Allows tagging of articles.
-7. **article\_tag**: Maps articles to tags.
-8. **comments**: Stores comments for articles.
+7. **article_tag**: Maps articles to tags.
+8. **comments**: Stores comments for published articles.
 
 ## Setup Instructions
 
@@ -27,8 +31,8 @@ The database consists of the following tables:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/salehzt100/task3.git
-   cd task3
+   git clone https://github.com/salehzt100/cms-project.git
+   cd cms-project
    ```
 
 2. Create a virtual environment:
@@ -51,7 +55,7 @@ The database consists of the following tables:
    DB_CONNECTION=postgresql+psycopg2
    DB_HOST=localhost
    DB_PORT=5432
-   DB_DATABASE=task3_db
+   DB_DATABASE=cms_db
    DB_USERNAME=postgres
    DB_PASSWORD=2222
    ```
@@ -121,7 +125,7 @@ The database consists of the following tables:
 The project follows the structure shown below:
 
 ```
-Task3/
+CMS_Project/
 ├── .venv/
 ├── api/
 │   ├── routes/
@@ -294,3 +298,6 @@ The application supports the following roles:
 - **AUTHOR**: Can create and edit their own articles.
 - **READER**: Can only read articles.
 
+--- 
+
+This revised version places emphasis on content management features while still retaining information about authentication, roles, and API setup instructions.

@@ -253,3 +253,44 @@ excluded_routes = [
 
 The project uses Bearer tokens for user authentication. Ensure that `personal_access_tokens` are properly generated and managed to secure the API endpoints.
 
+## API Schema
+
+### Login Endpoint
+- **Request Body**:
+  ```json
+  {
+    "username": "admin",
+    "password": "password"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "id": 1,
+    "username": "admin",
+    "role": "ADMIN"
+  }
+  ```
+
+### Role-Based Authorization Example
+To secure a route with role-based authorization:
+
+```python
+from fastapi import APIRouter, Depends
+from app.middlewares import role_required
+
+router = APIRouter()
+
+@router.get("/admin-panel", dependencies=[Depends(role_required(["ADMIN"]))])
+async def admin_panel():
+    return {"message": "Welcome, Admin!"}
+```
+
+## Available Roles
+
+The application supports the following roles:
+- **ADMIN**: Full access to all resources.
+- **EDITOR**: Can manage articles but not user roles.
+- **AUTHOR**: Can create and edit their own articles.
+- **READER**: Can only read articles.
+

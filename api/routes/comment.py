@@ -15,7 +15,7 @@ router = APIRouter(tags=["Comments"])
 @router.get(
     '/articles/{article_id}/comments',
     response_model=List[CommentResponse],
-    dependencies=[Depends(role_required(['ADMIN']))],
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR','READER']))],
     summary="List all comments for an article"
 )
 async def list_comments(
@@ -31,7 +31,7 @@ async def list_comments(
 @router.post(
     '/articles/{article_id}/comments',
     response_model=CommentResponse,
-    dependencies=[Depends(role_required(['ADMIN']))],
+    dependencies=[Depends(role_required(['AUTHOR','READER']))],
     summary="Create a comment for an article"
 )
 async def create_comment(
@@ -66,7 +66,7 @@ async def update_comment(
 @router.delete(
     '/comments/{comment_id}',
     response_model=dict,
-    dependencies=[Depends(role_required(['ADMIN']))],
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))],
     summary="Delete a comment"
 )
 async def delete_comment(

@@ -33,6 +33,13 @@ class AuthRepository:
         self.db.refresh(token)
         return token
 
+    def delete_token(self, token: PersonalAccessToken):
+        """
+        Delete token from database.
+        """
+        self.db.delete(token)
+        self.db.commit()
+
     def get_active_token(self, user_id: UUID4):
         """
         Get active token for user.

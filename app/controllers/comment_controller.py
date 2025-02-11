@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.services.comment_services import CommentService
 from bootstrap import get_db
-from database.schema import CommentRequestBody, CommentResponse, UserResponse
+from database.schema import CommentRequestBody, CommentResponse, UserResponse, CommentUpdateRequestBody
 from utils import exception_handler
 
 
@@ -30,7 +30,7 @@ class CommentController:
         return [self.comment_response(comment) for comment in comments]
 
     @exception_handler
-    def update(self, comment_id: int, request: CommentRequestBody):
+    def update(self, comment_id: int, request: CommentUpdateRequestBody):
         """
         Update a comment by its ID.
         """

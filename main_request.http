@@ -1,0 +1,13 @@
+
+
+
+GET http://localhost:8000/categories
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzg2MTQxMzYsInN1YiI6Im11amFkaWQifQ.-8dm6cfciFG2CHfuiDHkvdkwXsPAbKV0zlLU4kVZyMU
+
+###
+POST http://localhost:8000/categories
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mzg2MTQxMzYsInN1YiI6Im11amFkaWQifQ.-8dm6cfciFG2CHfuiDHkvdkwXsPAbKV0zlLU4kVZyMU
+

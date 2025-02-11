@@ -18,7 +18,7 @@ router = APIRouter( tags=["Articles"])
     '/articles',
     tags=["Articles"],
     summary="List all articles",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','READER','AUTHOR']))]
 )
 async def list_articles(
     search: Optional[str] = Query(None, description="Search for articles by keyword."),
@@ -36,7 +36,7 @@ async def list_articles(
     '/articles/{article_id}',
     response_model=ArticleResponse,
     summary="Show a specific article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','READER','AUTHOR']))]
 )
 async def show_article(
     article_id: int,
@@ -51,7 +51,7 @@ async def show_article(
 @router.post(
     '/articles',
     summary="Create a new article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR']))]
 )
 async def create_article(
     article_body: ArticleRequestBody,
@@ -68,7 +68,7 @@ async def create_article(
     '/articles/{article_id}',
     response_model=ArticleResponse,
     summary="Update an existing article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR']))]
 )
 async def update_article(
     article_id: int,
@@ -85,7 +85,7 @@ async def update_article(
     '/articles/{article_id}',
     response_model=dict,
     summary="Delete a specific article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR']))]
 )
 async def delete_article(
     article_id: int,
@@ -101,7 +101,7 @@ async def delete_article(
     '/articles/{article_id}/submit',
     response_model=ArticleResponse,
     summary="Submit an article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR']))]
 )
 async def submit_article(
     article_id: int,
@@ -117,7 +117,7 @@ async def submit_article(
     '/articles/{article_id}/draft',
     response_model=ArticleResponse,
     summary="Draft an article",
-    dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
+    dependencies=[Depends(role_required(['EDITOR', 'ADMIN','AUTHOR']))]
 )
 async def draft_article(
     article_id: int,

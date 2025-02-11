@@ -15,12 +15,14 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
+    TEST_POSTGRES_DB: str
 
     excluded_routes = [
         "/users/{user_id}",
         '/docs',
         '/openapi.json',
         '/login',
+
     ]
 
     ADMIN_USER = {
@@ -37,6 +39,13 @@ class Settings(BaseSettings):
             f"{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
 
+    @property
+    def SQLALCHEMY_TEST_DATABASE_URI(self) -> str:
+        return (
+            f"postgresql+psycopg2://{self.POSTGRES_USER}:"
+            f"{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:"
+            f"{self.POSTGRES_PORT}/{self.TEST_POSTGRES_DB}"
+        )
     class Config:
         env_file = "../.env"
         env_file_encoding = "utf-8"

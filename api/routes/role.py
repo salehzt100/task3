@@ -13,7 +13,7 @@ router = APIRouter(tags=["Roles"])
 
 @router.get('/roles',
             response_model=List[RoleResponse],
-            dependencies=[Depends(role_required(['ADMIN']))]
+            dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))],
             )
 async def list_role(role_controller: RoleController = Depends(RoleController)):
     return role_controller.index()

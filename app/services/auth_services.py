@@ -70,17 +70,20 @@ class AuthService:
             raise CustomException("Account is not active", status_code=403)
 
         access_token = self.auth_repository.get_active_token(user.id)
-        if not access_token:
-            new_access_token = create_access_token(sub=user.username)
 
-            new_token = PersonalAccessToken(
-                name=f"access_token_for_{user.username}",
-                token=new_access_token,
-                user_id=user.id,
-                expires_at=datetime.now() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
-                last_used_at=datetime.now(),
-            )
+        if  access_token:
+            self.auth_repository.delete_token(access_token)
 
-            access_token = self.auth_repository.add_token(new_token)
+        new_access_token = create_access_token(sub=user.username)
+
+        new_token = PersonalAccessToken(
+            name=f"access_token_for_{user.username}",
+            token=new_access_token,
+            user_id=user.id,
+            expires_at=datetime.now() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+            last_used_at=datetime.now(),
+        )
+
+        access_token = self.auth_repository.add_token(new_token)
 
         return {"access_token": access_token.token, "token_type": "bearer"}

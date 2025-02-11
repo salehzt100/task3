@@ -40,6 +40,11 @@ def get_current_user( request: Request, db: Session = Depends(get_db)):
 def role_required(roles: List[str]):
 
     def role_checker(user  = Depends(get_current_user),):
+        print('user', not any(role in [user.role.name] for role in roles))
+
+        for role in roles:
+            print('role', role)
+        print('role', user.role.name.copy())
         if not any(role in [user.role.name] for role in roles):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,

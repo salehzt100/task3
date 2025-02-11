@@ -47,11 +47,15 @@ def verify_access_token(request, db: Session = Depends(get_db)):
 
 
     token = request.headers.get("Authorization")
+    print('token', token)
 
     if not token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication token is missing. Please provide a valid token.")
     token = token.replace("Bearer ", "")
+    print('token without bearer ', token)
     token_in_db = auth_controller.get_personal_access_token(token)
+    print('token in databse' , token_in_db.__doc__)
+
 
     if token_in_db is None:
         raise HTTPException(detail='token is invalid', status_code=status.HTTP_401_UNAUTHORIZED)

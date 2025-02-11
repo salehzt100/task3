@@ -16,7 +16,6 @@ router = APIRouter(
     '/categories',
     response_model=CategoriesResponse,
     summary="Retrieve a list of categories, optionally filtered by a search term.",
-    dependencies=[Depends(role_required(['ADMIN']))]
 )
 async def list_category(
     search: str | None = Query(None, description="Search term to filter categories."),
@@ -28,7 +27,6 @@ async def list_category(
     '/categories/{category_id}',
     response_model=CategoryResponseModel,
     summary="Retrieve details of a specific category by its ID.",
-    dependencies=[Depends(role_required(['ADMIN']))]
 )
 async def show_category(
     category_id: int,
@@ -40,7 +38,6 @@ async def show_category(
     '/categories',
     response_model=CategoryResponse,
     summary="Create a new category with the provided details.",
-    dependencies=[Depends(role_required(['ADMIN']))]
 )
 async def create_category(
     request: CategoryRequestBody = Depends(category_as_form),
@@ -52,7 +49,6 @@ async def create_category(
     '/categories/{category_id}',
     response_model=dict,
     summary="Delete a specific category by its ID.",
-    dependencies=[Depends(role_required(['ADMIN']))]
 )
 async def delete_category(
     category_id: int,
@@ -64,7 +60,6 @@ async def delete_category(
     '/categories/{category_id}',
     response_model=CategoryResponse,
     summary="Update an existing category's details by its ID.",
-    dependencies=[Depends(role_required(['ADMIN']))]
 )
 async def update_category(
     category_id: int,

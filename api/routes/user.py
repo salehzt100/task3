@@ -50,7 +50,7 @@ async def all_inactive_authors(user_controller: UserController = Depends(UserCon
     dependencies=[Depends(role_required(['EDITOR', 'ADMIN']))]
 )
 async def show_user(user_id: UUID, user_controller: UserController = Depends(UserController)):
-    return user_controller.get_user_py_id(user_id)
+    return user_controller.get_user_by_id(user_id)
 
 
 @router.post(
@@ -62,7 +62,7 @@ async def create_user(
     user_body: AddUserRequestBody = Depends(user_post_as_form),
     user_controller: UserController = Depends(UserController)
 ):
-    return user_controller.stor(user_body)
+    return user_controller.store(user_body)
 
 
 @router.put(
